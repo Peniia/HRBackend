@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRManagementSystem.Infrastructure.Persistence
 {
@@ -12,9 +7,16 @@ namespace HRManagementSystem.Infrastructure.Persistence
     {
         public HRDbContext CreateDbContext(string[] args)
         {
+            // DbContext seçeneklerini oluştur
             var optionsBuilder = new DbContextOptionsBuilder<HRDbContext>();
-            // Bağlantı stringini buraya ekle (örnek: localdb)
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=HRManagementSystemDb;Trusted_Connection=True;"); return new HRDbContext(optionsBuilder.Options);
+
+            // Windows Authentication ile SQL Server bağlantısı
+            optionsBuilder.UseSqlServer(
+                "Server=localhost;Database=HRManagementSystemDB;Trusted_Connection=True;TrustServerCertificate=True;"
+            );
+
+            // Her zaman DbContext döndür
+            return new HRDbContext(optionsBuilder.Options);
         }
     }
 }
